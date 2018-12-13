@@ -2,7 +2,7 @@
 
 This repository is a fork from https://github.com/mshang/syntree. The primary modification in this fork is that the text area is replaced by the [Monaco code editor](https://github.com/Microsoft/monaco-editor).
 
-No modifications were made to the license. This fork is hosted publicly at http://www-personal.umich.edu/~seshrs/syntree.
+No modifications were made to the license. This fork is hosted publicly at https://seshrs.github.io/syntree/.
 
 # Original README
 
