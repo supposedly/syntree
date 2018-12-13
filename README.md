@@ -1,3 +1,11 @@
+# Modifications from original
+
+This repository is a fork from https://github.com/mshang/syntree. The primary modification in this fork is that the text area is replaced by the [Monaco code editor](https://github.com/Microsoft/monaco-editor).
+
+No modifications were made to the license.
+
+# Original README
+
 The goal of this project is to create a browser-based, fully local syntax tree generator, for drawing trees as you might find in an introductory linguistics course. Here are a few main features:
 
 * Designed to be easy to use.
