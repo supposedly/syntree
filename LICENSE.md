@@ -1,3 +1,6 @@
+The MIT License (MIT)
+
+Copyright (C) 2018 by Sesh Sadasivam <seshrs@umich.edu>
 Copyright (C) 2011 by Miles Shang <mail@mshang.ca>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,3 +41,7 @@ jQuery v1.7.1
 jQuery UI v1.8.18
 	Copyright (c) 2011 Paul Bakaus, http://jqueryui.com/
 	MIT license [jquery.org/license]
+
+Monaco Editor v0.15.6
+	Copyright (c) 2018 Microsoft Corporation, https://microsoft.github.io/monaco-editor/index.html
+	MIT license [https://github.com/Microsoft/monaco-editor/blob/master/LICENSE.md]
