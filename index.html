@@ -107,6 +107,28 @@
 
 require.config({ paths: { 'vs': 'js/monaco-editor/min/vs' }});
 require(['vs/editor/editor.main'], function() {
+	// Register a new language
+	monaco.languages.register({ id: 'mySpecialLanguage' });
+
+	// Register a tokens provider for the language
+	monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
+		tokenizer: {
+			root: [
+				[/(\[)([\^A-Za-z0-9\-]*)(?!\])$/, ["string", "custom-test"]],
+				[/(\[)([\^A-Za-z0-9\-]*)(\s)/, ["string", "custom-test", "string"]],
+			]
+		}
+	});
+
+	// Define a new theme that contains only rules that match this language
+	monaco.editor.defineTheme('myCoolTheme', {
+		base: 'vs',
+		inherit: false,
+		rules: [
+			{ token: 'custom-test', foreground: '0000ff' },
+		]
+	});
+
 	window.editor = monaco.editor.create(document.getElementById('container-monaco'), {
 		value: [
 			'[S',
@@ -117,13 +139,14 @@ require(['vs/editor/editor.main'], function() {
 			'\t]',
 			']'
 		].join('\n'),
-		language: 'plaintext',
+		language: 'mySpecialLanguage',
 		minimap: {
 			enabled: false
 		},
 		scrollBeyondLastLine: false,
 		lineNumbers: 'off',
 		automaticLayout: true,
+		theme: 'myCoolTheme',
 	});
 	init();
 });
