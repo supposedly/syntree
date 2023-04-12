@@ -76,8 +76,11 @@ Node.prototype.set_width = function(ctx, vert_space, hor_space, term_font, nonte
 		ctx.font = nonterm_font;
 
 	var val_width = ctx.measureText(this.value).width;
-	var subscript_width = subscript(ctx).measureText(this.label).width;
-	unsubscript(ctx);
+	var subscript_width = 0;
+	if (this.label !== null) {
+		subscript_width = subscript(ctx).measureText(this.label).width;
+		unsubscript(ctx);
+	}
 	const total_width = val_width + subscript_width;
 
 	for (var child = this.first; child != null; child = child.next)
@@ -146,9 +149,11 @@ Node.prototype.draw = function(ctx, font_size, term_font, nonterm_font, color, t
 	}
 	
 	ctx.fillText(this.value, this.x, this.y);
-	const val_width = ctx.measureText(this.value).width;
-	subscript(ctx).fillText(this.label, this.x + val_width, this.y);
-	unsubscript(ctx);
+	if (this.label !== null) {
+		const val_width = ctx.measureText(this.value).width;
+		subscript(ctx).fillText(this.label, this.x + val_width, this.y);
+		unsubscript(ctx);
+	}
 	for (var child = this.first; child != null; child = child.next)
 		child.draw(ctx, font_size, term_font, nonterm_font, color, term_lines);
 	
