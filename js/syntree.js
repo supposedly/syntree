@@ -55,19 +55,37 @@ Node.prototype.check_triangle = function() {
 		child.check_triangle();
 }
 
+function subscript(ctx) {
+	// https://stackoverflow.com/a/35626468
+	const match = /(?<value>\d+\.?\d*)/;
+	const newSize = parseFloat(ctx.font.match(match).groups.value - 2);
+	ctx.font = ctx.font.replace(match, newSize);
+	return ctx;
+}
+
+function unsubscript(ctx) {
+	const match = /(?<value>\d+\.?\d*)/;
+	const newSize = parseFloat(ctx.font.match(match).groups.value + 2);
+	ctx.font = ctx.font.replace(match, newSize);
+	return ctx;
+}
+
 Node.prototype.set_width = function(ctx, vert_space, hor_space, term_font, nonterm_font) {
 	ctx.font = term_font;
 	if (this.has_children)
 		ctx.font = nonterm_font;
 
 	var val_width = ctx.measureText(this.value).width;
+	var subscript_width = subscript(ctx).measureText(this.label).width;
+	unsubscript(ctx);
+	const total_width = val_width + subscript_width;
 
 	for (var child = this.first; child != null; child = child.next)
 		child.set_width(ctx, vert_space, hor_space, term_font, nonterm_font);
 	
 	if (!this.has_children) {
-		this.left_width = val_width / 2;
-		this.right_width = val_width / 2;
+		this.left_width = total_width / 2;
+		this.right_width = total_width / 2;
 		return;
 	}
 	
@@ -88,8 +106,8 @@ Node.prototype.set_width = function(ctx, vert_space, hor_space, term_font, nonte
 		this.right_width = sub + this.last.right_width;
 	}
 	
-	this.left_width = Math.max(this.left_width, val_width / 2);
-	this.right_width = Math.max(this.right_width, val_width / 2);
+	this.left_width = Math.max(this.left_width, total_width / 2);
+	this.right_width = Math.max(this.right_width, total_width / 2);
 
 }
 
@@ -128,6 +146,9 @@ Node.prototype.draw = function(ctx, font_size, term_font, nonterm_font, color, t
 	}
 	
 	ctx.fillText(this.value, this.x, this.y);
+	const val_width = ctx.measureText(this.value).width;
+	subscript(ctx).fillText(this.label, this.x + val_width, this.y);
+	unsubscript(ctx);
 	for (var child = this.first; child != null; child = child.next)
 		child.draw(ctx, font_size, term_font, nonterm_font, color, term_lines);
 	
@@ -408,8 +429,6 @@ function parse(str) {
 	n.value = n.value.replace(/_(\w+)$/,
 		function(match, label) {
 			n.label = label;
-			if (n.label.search(/^\d+$/) != -1)
-				return subscriptify(n.label);
 			return "";
 		});
 	
