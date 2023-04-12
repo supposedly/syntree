@@ -1,5 +1,6 @@
 The MIT License (MIT)
 
+Copyright (C) 2023 by Hadi Tarhini <tarhini@uw.edu>
 Copyright (C) 2018 by Sesh Sadasivam <seshrs@umich.edu>
 Copyright (C) 2011 by Miles Shang <mail@mshang.ca>
 

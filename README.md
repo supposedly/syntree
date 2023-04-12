@@ -1,10 +1,8 @@
-# Syntree
+# [Syntree](https://supposedly.github.io/syntree)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/seshrs/syntree/blob/gh-pages/LICENSE.md)
 
-Syntree is an in-browser syntax tree generator. This repository is a fork from https://github.com/mshang/syntree. The primary modification in this fork is that the text area is replaced by the [Monaco code editor](https://github.com/Microsoft/monaco-editor).
-
-This fork is hosted publicly at https://seshrs.github.io/syntree/.
+Syntree is an in-browser syntax tree generator. This repository is a fork from https://github.com/seshrs/syntree, itself a fork of https://github.com/mshang/syntree.
 
 ## Original README
 

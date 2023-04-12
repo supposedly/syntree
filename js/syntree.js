@@ -323,7 +323,7 @@ function go(str, font_size, term_font, nonterm_font, vert_space, hor_space, colo
 
 	// Find out dimensions of the tree.
 	root.set_width(ctx, vert_space, hor_space, term_font, nonterm_font);
-	root.assign_location(0, 0, font_size, term_lines);
+	root.assign_location(0, 0, font_size, false /* term_lines */);
 	root.find_height();
 	
 	var movement_lines = new Array();
@@ -353,7 +353,7 @@ function go(str, font_size, term_font, nonterm_font, vert_space, hor_space, colo
 	var y_shift = Math.floor(font_size + margin);
 	ctx.translate(x_shift, y_shift);
 	
-	root.draw(ctx, font_size, term_font, nonterm_font, color, term_lines);
+	root.draw(ctx, font_size, term_font, nonterm_font, color, false /*term_lines*/);
 	for (var i = 0; i < movement_lines.length; i++)
 		if (movement_lines[i].should_draw) movement_lines[i].draw(ctx);
 	
