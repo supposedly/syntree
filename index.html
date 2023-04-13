@@ -115,7 +115,8 @@
 	</div>
 	<br />
 
-	<div id="image-goes-here"></div>
+	<div id="image-goes-here" class="image"></div>
+	<button onclick="const img = document.getElementById('image-goes-here'); const clone = img.cloneNode(true); clone.id = ''; img.after(clone);">New</button>
 
 
 	<style type="text/css">
@@ -153,7 +154,7 @@
 			text-align: left;
 		}
 
-		#image-goes-here {
+		#image-goes-here, .image, button {
 			text-align: center;
 		}
 
