@@ -412,6 +412,7 @@ function parse(str) {
 		n.value = n.value.replace('{', '[');
 		n.value = n.value.replace('}', ']');
 		n.value = n.value.replace('\\0', 'Ø');
+		n.value = n.value.replace('\\-', '–');
 		const underscore = n.value.match('_');
 		if (underscore) {
 			n.subscript = n.value.slice(underscore.index + 1);
@@ -432,6 +433,7 @@ function parse(str) {
 	n.value = n.value.replace('{', '[');
 	n.value = n.value.replace('}', ']');
 	n.value = n.value.replace('\\0', 'Ø');
+	n.value = n.value.replace('\\-', '–');
 	const underscore = n.value.match('_');
 	const dash = n.value.match('-');
 	if (underscore) {
