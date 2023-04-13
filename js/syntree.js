@@ -424,11 +424,12 @@ function parse(str) {
 	n.value = n.value.replace('\\0', 'Ø')
 	const delim = n.value.match(/[_-]/);
 	if (delim) {
-		n.label = n.value.slice(delim.index);
+		n.label = n.value.slice(delim.index + 1);
 		n.value = n.value.slice(0, delim.index);
 		if (delim[0] === '_') {
-			n.substring = n.label;
-		} 
+			n.subscript = n.label;
+		}
+		console.log(n.value, n.label, n.substring);
 	}
 	
 	while (str[i] == " ") i++;
