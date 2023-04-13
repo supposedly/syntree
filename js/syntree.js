@@ -411,14 +411,11 @@ function parse(str) {
 		
 		n.value = n.value.replace('{', '[');
 		n.value = n.value.replace('}', ']');
-		n.value = n.value.replace('\\0', 'Ø')
-		const delim = n.value.match(/[_-]/);
-		if (delim) {
-			n.label = n.value.slice(delim.index + 1);
+		n.value = n.value.replace('\\0', 'Ø');
+		const underscore = n.value.match('_');
+		if (underscore) {
+			n.subscript = n.value.slice(delim.index + 1);
 			n.value = n.value.slice(0, delim.index);
-			if (delim[0] === '_') {
-				n.subscript = n.label;
-			}
 		}
 
 		return n;
@@ -434,14 +431,18 @@ function parse(str) {
 		});
 	n.value = n.value.replace('{', '[');
 	n.value = n.value.replace('}', ']');
-	n.value = n.value.replace('\\0', 'Ø')
-	const delim = n.value.match(/[_-]/);
-	if (delim) {
-		n.label = n.value.slice(delim.index + 1);
-		n.value = n.value.slice(0, delim.index);
-		if (delim[0] === '_') {
-			n.subscript = n.label;
-		}
+	n.value = n.value.replace('\\0', 'Ø');
+	const underscore = n.value.match('_');
+	const dash = n.value.match('-');
+	if (underscore) {
+		n.subscript = n.value.slice(underscore.index + 1, dash ? dash.index : undefined);
+		n.label = n.subscript;
+	}
+	if (dash) {
+		n.label = n.value.slice(dash.index + 1);
+	}
+	if (underscore || dash) {
+		n.value = n.value.slice(0, underscore ? underscore.index : dash.index);
 	}
 	
 	while (str[i] == " ") i++;

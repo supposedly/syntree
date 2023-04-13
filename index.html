@@ -201,15 +201,7 @@
 			});
 
 			window.editor = monaco.editor.create(document.getElementById('container-monaco'), {
-				value: [
-					'[S',
-					'\t[NP This]',
-					'\t[VP',
-					'\t\t[V is]',
-					'\t\t[^NP a wug]',
-					'\t]',
-					']'
-				].join('\n'),
+				value: '',
 				language: 'mySpecialLanguage',
 				minimap: {
 					enabled: false
