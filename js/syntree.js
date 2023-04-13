@@ -414,8 +414,8 @@ function parse(str) {
 		n.value = n.value.replace('\\0', 'Ø');
 		const underscore = n.value.match('_');
 		if (underscore) {
-			n.subscript = n.value.slice(delim.index + 1);
-			n.value = n.value.slice(0, delim.index);
+			n.subscript = n.value.slice(underscore.index + 1);
+			n.value = n.value.slice(0, underscore.index);
 		}
 
 		return n;
