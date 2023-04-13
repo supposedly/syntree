@@ -56,16 +56,18 @@ Node.prototype.check_triangle = function() {
 }
 
 function subscript(ctx) {
+	ctx.textBaseline = 'middle';
 	// https://stackoverflow.com/a/35626468
 	const match = /(?<value>\d+\.?\d*)/;
-	const newSize = parseFloat(ctx.font.match(match).groups.value - 2);
+	const newSize = parseFloat(+ctx.font.match(match).groups.value - 2);
 	ctx.font = ctx.font.replace(match, newSize);
 	return ctx;
 }
 
 function unsubscript(ctx) {
+	ctx.textBaseline = 'alphabetic';
 	const match = /(?<value>\d+\.?\d*)/;
-	const newSize = parseFloat(ctx.font.match(match).groups.value + 2);
+	const newSize = parseFloat(+ctx.font.match(match).groups.value + 2);
 	ctx.font = ctx.font.replace(match, newSize);
 	return ctx;
 }
@@ -148,11 +150,15 @@ Node.prototype.draw = function(ctx, font_size, term_font, nonterm_font, color, t
 			ctx.fillStyle = "blue";
 	}
 	
-	ctx.fillText(this.value, this.x, this.y);
 	if (this.label !== null) {
 		const val_width = ctx.measureText(this.value).width;
-		subscript(ctx).fillText(this.label, this.x + val_width, this.y);
+		const label_width = subscript(ctx).measureText(this.label).width;
 		unsubscript(ctx);
+		ctx.fillText(this.value, this.x - label_width / 2, this.y);
+		subscript(ctx).fillText(this.label, this.x + val_width / 2, this.y);
+		unsubscript(ctx);
+	} else {
+		ctx.fillText(this.value, this.x, this.y);
 	}
 	for (var child = this.first; child != null; child = child.next)
 		child.draw(ctx, font_size, term_font, nonterm_font, color, term_lines);
