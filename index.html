@@ -201,7 +201,15 @@
 			});
 
 			window.editor = monaco.editor.create(document.getElementById('container-monaco'), {
-				value: '',
+				value: [
+					'[S',
+					'  [NP This]',
+					'  [VP',
+					'    [V is]',
+					'    [^NP a wug]',
+					'  ]',
+					']'
+				].join('\n'),
 				language: 'mySpecialLanguage',
 				minimap: {
 					enabled: false
