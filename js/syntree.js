@@ -8,6 +8,7 @@ var padding_below_text = 6;
 
 function Node() {
 	this.value = null;
+	this.subscript = null;
 	this.step = null; // Horizontal distance between children.
 	this.draw_triangle = null;
 	this.label = null; // Head of movement.
@@ -79,8 +80,8 @@ Node.prototype.set_width = function(ctx, vert_space, hor_space, term_font, nonte
 
 	var val_width = ctx.measureText(this.value).width;
 	var subscript_width = 0;
-	if (this.label !== null) {
-		subscript_width = subscript(ctx).measureText(this.label).width;
+	if (this.subscript !== null) {
+		subscript_width = subscript(ctx).measureText(this.subscript).width;
 		unsubscript(ctx);
 	}
 	const total_width = val_width + subscript_width;
@@ -150,12 +151,12 @@ Node.prototype.draw = function(ctx, font_size, term_font, nonterm_font, color, t
 			ctx.fillStyle = "blue";
 	}
 	
-	if (this.label !== null) {
+	if (this.subscript !== null) {
 		const val_width = ctx.measureText(this.value).width;
-		const label_width = subscript(ctx).measureText(this.label).width;
+		const subscript_width = subscript(ctx).measureText(this.subscript).width;
 		unsubscript(ctx);
-		ctx.fillText(this.value, this.x - label_width / 2, this.y);
-		subscript(ctx).fillText(this.label, this.x + val_width / 2, this.y);
+		ctx.fillText(this.value, this.x - subscript_width / 2, this.y);
+		subscript(ctx).fillText(this.subscript, this.x + val_width / 2, this.y);
 		unsubscript(ctx);
 	} else {
 		ctx.fillText(this.value, this.x, this.y);
@@ -393,25 +394,6 @@ function go(str, font_size, term_font, nonterm_font, vert_space, hor_space, colo
 	return Canvas2Image.saveAsPNG(canvas, true);
 }
 
-function subscriptify(in_str) {
-	var out_str = "";
-	for (var i = 0; i < in_str.length; ++i) {
-		switch (in_str[i]) {
-		case "0": out_str = out_str + "₀"; break;
-		case "1": out_str = out_str + "₁"; break;
-		case "2": out_str = out_str + "₂"; break;
-		case "3": out_str = out_str + "₃"; break;
-		case "4": out_str = out_str + "₄"; break;
-		case "5": out_str = out_str + "₅"; break;
-		case "6": out_str = out_str + "₆"; break;
-		case "7": out_str = out_str + "₇"; break;
-		case "8": out_str = out_str + "₈"; break;
-		case "9": out_str = out_str + "₉"; break;
-		}
-	}
-	return out_str;
-}
-
 function parse(str) {
 	var n = new Node();
 	
@@ -437,11 +419,17 @@ function parse(str) {
 			n.starred = true;
 			return "";
 		});
-	n.value = n.value.replace(/_(\w+)$/,
-		function(match, label) {
-			n.label = label;
-			return "";
-		});
+	n.value = n.value.replace('{', '[');
+	n.value = n.value.replace('}', ']');
+	n.value = n.value.replace('\\0', 'Ø')
+	const delim = n.value.match(/[_-]/);
+	if (delim) {
+		n.label = n.value.slice(delim.index);
+		n.value = n.value.slice(0, delim.index);
+		if (delim[0] === '_') {
+			n.substring = n.label;
+		} 
+	}
 	
 	while (str[i] == " ") i++;
 	if (str[i] != "]") {
