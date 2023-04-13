@@ -408,6 +408,19 @@ function parse(str) {
 		str = str.replace(/^\s+/, "");
 		str = str.replace(/\s+$/, "");
 		n.value = str;
+		
+		n.value = n.value.replace('{', '[');
+		n.value = n.value.replace('}', ']');
+		n.value = n.value.replace('\\0', 'Ø')
+		const delim = n.value.match(/[_-]/);
+		if (delim) {
+			n.label = n.value.slice(delim.index + 1);
+			n.value = n.value.slice(0, delim.index);
+			if (delim[0] === '_') {
+				n.subscript = n.label;
+			}
+		}
+
 		return n;
 	}
 
@@ -429,7 +442,6 @@ function parse(str) {
 		if (delim[0] === '_') {
 			n.subscript = n.label;
 		}
-		console.log(n.value, n.label, n.substring);
 	}
 	
 	while (str[i] == " ") i++;
