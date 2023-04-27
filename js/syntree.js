@@ -409,10 +409,10 @@ function parse(str) {
 		str = str.replace(/\s+$/, "");
 		n.value = str;
 		
-		n.value = n.value.replace('{', '[');
-		n.value = n.value.replace('}', ']');
-		n.value = n.value.replace('\\0', 'Ø');
-		n.value = n.value.replace('\\-', '–');
+		n.value = n.value.replaceAll('{', '[');
+		n.value = n.value.replaceAll('}', ']');
+		n.value = n.value.replaceAll('\\0', 'Ø');
+		n.value = n.value.replaceAll('\\-', '–');
 		const underscore = n.value.match('_');
 		if (underscore) {
 			n.subscript = n.value.slice(underscore.index + 1);
@@ -430,10 +430,10 @@ function parse(str) {
 			n.starred = true;
 			return "";
 		});
-	n.value = n.value.replace('{', '[');
-	n.value = n.value.replace('}', ']');
-	n.value = n.value.replace('\\0', 'Ø');
-	n.value = n.value.replace('\\-', '–');
+	n.value = n.value.replaceAll('{', '[');
+	n.value = n.value.replaceAll('}', ']');
+	n.value = n.value.replaceAll('\\0', 'Ø');
+	n.value = n.value.replaceAll('\\-', '–');
 	const underscore = n.value.match('_');
 	const dash = n.value.match('-');
 	if (underscore) {
